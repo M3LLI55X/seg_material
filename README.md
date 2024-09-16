@@ -1,26 +1,23 @@
 ### 💾 Installation
+changed from [make it real]{https://github.com/Aleafy/Make_it_Real/}
+module load if it is possible
+```
+module load sqlite3/3.42.0 tensorrt/8.6.1.6-cuda-12.X cmake/3.28.3  openblas/0.3.23 cudnn/v8.9.7.29-prod-cuda-12.X cuda/12.1 gcc/11.5.0-binutils-2.43    blender/3.6.2
+```
 
 1. Install basic modules: torch and packages in requirements.txt
    
    ```bash
-   git clone https://github.com/Aleafy/Make_it_Real.git
-   cd Make_it_Real
+   cd seg_material
 
    conda create -n mkreal python=3.8 
    pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
    pip install -r requirements.txt
    ```
 
-2. Install rendering utils: Blender and Kaolin
+2. Install rendering utils:  Kaolin
    
-   Download [blender-3.2.2-linux-x64.tar.xz_original](https://download.blender.org/release/Blender3.2/) or [blender_3.2.2_with_installed_modules](https://drive.google.com/file/d/1PKbCS7VymPo_xVYavT0CDd42OmXbfurY/view?usp=sharing)
-
-   ```bash
-   tar -xvf blender-3.2.2-linux-x64.tar.xz
-   export PATH=$PATH:path_to_blender/blender-3.2.2-linux-x64
-   ```
-
-   and Kaolin
+   
    ```bash
    pip install kaolin==0.13.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-1.10.1_cu111.html
    ```

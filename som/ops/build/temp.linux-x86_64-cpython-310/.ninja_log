@@ -1,4 +1,4 @@
 # ninja log v5
-1	5689	1726175487874628702	/dtu/blackhole/11/180913/Make_it_Real/som/ops/build/temp.linux-x86_64-cpython-310/dtu/blackhole/11/180913/Make_it_Real/som/ops/src/cpu/ms_deform_attn_cpu.o	15736d0a88005207
-2	15116	1726175497300519055	/dtu/blackhole/11/180913/Make_it_Real/som/ops/build/temp.linux-x86_64-cpython-310/dtu/blackhole/11/180913/Make_it_Real/som/ops/src/vision.o	ce81c2052364ed42
-1	18656	1726175500824478060	/dtu/blackhole/11/180913/Make_it_Real/som/ops/build/temp.linux-x86_64-cpython-310/dtu/blackhole/11/180913/Make_it_Real/som/ops/src/cuda/ms_deform_attn_cuda.o	49dfec644c8106ee
+1	5689	1726175487874628702	/dtu/blackhole/11/180913/seg_material/som/ops/build/temp.linux-x86_64-cpython-310/dtu/blackhole/11/180913/seg_material/som/ops/src/cpu/ms_deform_attn_cpu.o	15736d0a88005207
+2	15116	1726175497300519055	/dtu/blackhole/11/180913/seg_material/som/ops/build/temp.linux-x86_64-cpython-310/dtu/blackhole/11/180913/seg_material/som/ops/src/vision.o	ce81c2052364ed42
+1	18656	1726175500824478060	/dtu/blackhole/11/180913/seg_material/som/ops/build/temp.linux-x86_64-cpython-310/dtu/blackhole/11/180913/seg_material/som/ops/src/cuda/ms_deform_attn_cuda.o	49dfec644c8106ee

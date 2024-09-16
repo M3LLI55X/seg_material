@@ -104,9 +104,9 @@ def save_color_image(color_image, output_path):
 if __name__ == '__main__':
     argv = args()
     exp_name = argv.exp_name  
-    os.makedirs(f'/dtu/blackhole/11/180913/Make_it_Real/experiments/{exp_name}', exist_ok=True)
-    folder_path = f'/dtu/blackhole/11/180913/Make_it_Real/experiments/{exp_name}'
-    result_path = f'/dtu/blackhole/11/180913/Make_it_Real/experiments/{exp_name}'
+    os.makedirs(f'/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}', exist_ok=True)
+    folder_path = f'/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}'
+    result_path = f'/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}'
 
     test_image_path=argv.img_dir
     test_single_image(test_image_path, exp_name)

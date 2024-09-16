@@ -9,7 +9,7 @@ import cv2
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.extend([current_dir, parent_dir])
-sys.path.extend(['/dtu/blackhole/11/180913/Make_it_Real/utils/mask_postprocess.py'])
+sys.path.extend(['/dtu/blackhole/11/180913/seg_material/utils/mask_postprocess.py'])
 from som.task_adapter.utils.visualizer import Visualizer
 from mask_postprocess import refine_masks
 
@@ -30,15 +30,15 @@ def resize_images(image_path,exp_name):
         resized_image = cv2.resize(image, new_size, interpolation=cv2.INTER_LINEAR)
 
         # 保存放大的图片
-        outsave_path = f'/dtu/blackhole/11/180913/Make_it_Real/experiments/{exp_name}/original_image.jpg'  # 替换为你想保存图片的路径
+        outsave_path = f'/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}/original_image.jpg'  # 替换为你想保存图片的路径
         cv2.imwrite(outsave_path, resized_image)
 
 # 测试函数
 def Merge(img_dir,exp_name):
     # 设置结果路径
-    result_path = f'/dtu/blackhole/11/180913/Make_it_Real/experiments/{exp_name}'  # 替换为你的结果路径
+    result_path = f'/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}'  # 替换为你的结果路径
     leave_index = None  # 如果只想处理特定索引的掩码，可以设置为相应的索引值
-    image_path = '/dtu/blackhole/11/180913/Make_it_Real/experiments/{exp_name}/original_image.jpg'
+    image_path = '/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}/original_image.jpg'
     resize_images(img_dir,exp_name)
     print('Image resized')
     # 调用测试函数

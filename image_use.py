@@ -47,7 +47,7 @@ def save_color_image(color_image, output_path):
 
 if __name__ == '__main__':
     # 加载所有mask图像
-    mask_folder = '/dtu/blackhole/11/180913/Make_it_Real/experiments/chair/clean_masks/0'
+    mask_folder = '/dtu/blackhole/11/180913/seg_material/experiments/chair/clean_masks/0'
     mask_arrays = load_all_mask_images(mask_folder)
     
     # 创建一个大的矩阵

@@ -23,15 +23,15 @@ import numpy as np
 import json
 
 # 加载模型配置和权重
-semsam_cfg = "/dtu/blackhole/11/180913/Make_it_Real/som/configs/semantic_sam_only_sa-1b_swinL.yaml"
-semsam_ckpt = "/dtu/blackhole/11/180913/Make_it_Real/som/ckpts/swinl_only_sam_many2many.pth"
+semsam_cfg = "/dtu/blackhole/11/180913/seg_material/som/configs/semantic_sam_only_sa-1b_swinL.yaml"
+semsam_ckpt = "/dtu/blackhole/11/180913/seg_material/som/ckpts/swinl_only_sam_many2many.pth"
 opt_semsam = load_opt_from_config_file(semsam_cfg)
 model_semsam = BaseModel(opt_semsam, build_model(opt_semsam)).from_pretrained(semsam_ckpt).eval().cuda()
 
 # 定义测试函数
 def test_single_image(image_path, exp_name):
-    semsam_cfg = "/dtu/blackhole/11/180913/Make_it_Real/som/configs/semantic_sam_only_sa-1b_swinL.yaml"
-    semsam_ckpt = "/dtu/blackhole/11/180913/Make_it_Real/som/ckpts/swinl_only_sam_many2many.pth"
+    semsam_cfg = "/dtu/blackhole/11/180913/seg_material/som/configs/semantic_sam_only_sa-1b_swinL.yaml"
+    semsam_ckpt = "/dtu/blackhole/11/180913/seg_material/som/ckpts/swinl_only_sam_many2many.pth"
     opt_semsam = load_opt_from_config_file(semsam_cfg)
     model_semsam = BaseModel(opt_semsam, build_model(opt_semsam)).from_pretrained(semsam_ckpt).eval().cuda()
     image = Image.open(image_path).convert('RGB')
@@ -50,5 +50,5 @@ def test_single_image(image_path, exp_name):
     print('Segmentation result saved at:', output_dir)
 
 # 测试单张图片
-# test_image_path = '/dtu/blackhole/11/180913/Make_it_Real/output_image.png'  # 替换为你的图片路径
+# test_image_path = '/dtu/blackhole/11/180913/seg_material/output_image.png'  # 替换为你的图片路径
 # test_single_image(test_image_path)
