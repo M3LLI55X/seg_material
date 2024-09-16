@@ -1,0 +1,11 @@
+log:
+  exp_name: kettle_train
+render:
+  eval_grid_size: 1200
+guide:
+  shape_path: data/mesh/kettle/kettle.obj
+  mat2im_path: experiments/kettle/gpt4_query/result_mat2im.json
+  result_path: experiments/kettle/results
+  texture_resolution: 1024
+optim:
+  seed: 3
