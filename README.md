@@ -11,12 +11,11 @@ module load sqlite3/3.42.0 tensorrt/8.6.1.6-cuda-12.X cmake/3.28.3  openblas/0.3
    cd seg_material
 
    conda create -n mkreal python=3.8 
-   pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
+   pip install torch torchvision torchaudio
    pip install -r requirements.txt
    ```
 
 2. Install rendering utils:  Kaolin
-   
    
    ```bash
    pip install kaolin==0.13.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-1.10.1_cu111.html
