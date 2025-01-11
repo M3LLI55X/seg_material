@@ -1,10 +1,3 @@
-# --------------------------------------------------------
-# Semantic-SAM: Segment and Recognize Anything at Any Granularity
-# Copyright (c) 2023 Microsoft
-# Licensed under The MIT License [see LICENSE for details]
-# Written by Hao Zhang (hzhangcx@connect.ust.hk)
-# --------------------------------------------------------
-
 import torch
 import numpy as np
 from torchvision import transforms
@@ -26,10 +19,8 @@ def inference_semsam_auto(model, image, level, all_classes, all_parts, thresh, t
     t.append(transforms.Resize(int(text_size), interpolation=Image.BICUBIC))
     transform1 = transforms.Compose(t)
     image_ori = transform1(image)
-
     image_ori = np.asarray(image_ori)
     images = torch.from_numpy(image_ori.copy()).permute(2,0,1).cuda()
-
     mask_generator = SemanticSamAutomaticMaskGenerator(model,points_per_side=points_per_side,
             pred_iou_thresh=0.88, 
             stability_score_thresh=0.92,
@@ -37,7 +28,6 @@ def inference_semsam_auto(model, image, level, all_classes, all_parts, thresh, t
             level=level,
         )
     outputs = mask_generator.generate(images)
-
     sorted_anns = sorted(outputs, key=(lambda x: x['area']), reverse=True)
 
     folder_path = save_dir

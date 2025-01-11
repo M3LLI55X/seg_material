@@ -1,21 +1,22 @@
+import torchvision.transforms as transforms
 from utils.merge import Merge
 from som.seg import test_single_image
 from utils.gen_config import *
 import sys 
 sys.path.extend(['./som', './scripts/kaolin_scripts'])
 # from som.sesam_serial import seg_serial
-import subprocess
+# import subprocess
 
 from utils.gpt4_query import query_overall, query_refine, query_description, query_shape
-from utils.mask_postprocess import refine_masks
-from utils.texture_postprocess import region_refine, pixel_estimate
+# from utils.mask_postprocess import refine_masks
+# from utils.texture_postprocess import region_refine, pixel_estimate
 from utils.tools import *
 
-from scripts.kaolin_scripts.load_cfg import render_model, paint_model_w_mask
+# from scripts.kaolin_scripts.load_cfg import render_model, paint_model_w_mask
 
 import os
 import argparse
-import warnings
+# import warnings
 
 from PIL import Image
 import numpy as np
@@ -54,7 +55,47 @@ def generate_material_array(mask_array, material_mapping):
             material_array[i, j] = material_mapping.get(material_id, 'Unknown')
     return material_array
 
+def load_and_resize_masks(mask_folder, target_size=(256, 256)):
+    """
+    读取mask文件夹中的所有图像，并将它们调整为相同的大小。
+    
+    Args:
+        mask_folder (str): 掩码文件所在的文件夹路径
+        target_size (tuple): 目标尺寸 (宽, 高)
+    
+    Returns:
+        merged_mask (np.array): 合并后的mask矩阵
+    """
+    # 初始化转换操作：调整大小和转换为张量
+    resize_transform = transforms.Resize(target_size)
+    
+    # 初始化一个与目标大小相同的全零矩阵，作为最终合并的掩码矩阵
+    merged_mask = np.zeros(target_size, dtype=np.int32)
+    
+    # 分割区域编号从0开始
+    label_counter = 1  # 0留给背景
 
+    # 遍历文件夹中的所有mask图像
+    for mask_file in os.listdir(mask_folder):
+        mask_path = os.path.join(mask_folder, mask_file)
+        
+        # 读取mask图像
+        mask = Image.open(mask_path).convert('L')  # 转换为灰度图
+        mask_resized = resize_transform(mask)  # 调整尺寸
+
+        # 将PIL图像转换为NumPy数组
+        mask_array = np.array(mask_resized)
+
+        # 找到当前mask中非零区域，并赋予新的label值
+        mask_array = (mask_array > 0).astype(np.int32) * label_counter
+        
+        # 更新label_counter，每次处理完一个mask后，递增
+        label_counter += 1
+
+        # 将当前mask合并到最终的合并矩阵中
+        merged_mask = np.where(mask_array > 0, mask_array, merged_mask)
+    
+    return merged_mask
 
 def load_all_mask_images(mask_folder):
     mask_arrays = {}
@@ -99,8 +140,6 @@ def save_color_image(color_image, output_path):
     image = Image.fromarray(color_image)
     image.save(output_path)
 
-
-
 if __name__ == '__main__':
     argv = args()
     exp_name = argv.exp_name  
@@ -126,38 +165,44 @@ if __name__ == '__main__':
     else:
         leave_list = [leave_index]
 
-    view_path = f'/data/images'
-    mv_img_pth = paste_image(view_path)
-    obj_info = query_shape(folder_path, mv_img_pth, api_key)
+    # view_path = f'/data/images'
+    view_path = f'/data/images/image_0_0.png'
+    # mv_img_pth = paste_image(view_path)
 
+    # obj_info = query_shape(folder_path, mv_img_pth, api_key)
+    obj_info=None
     # GPT-4V query about material of each part
-    query_overall(folder_path, leave_list, api_key, obj_info)
-    query_refine(folder_path, leave_list, api_key, obj_info)
-    cache_path = query_description(folder_path, leave_list, api_key, obj_info, force=True)
+    # query_overall(folder_path, leave_list, api_key, obj_info)
+    # query_refine(folder_path, leave_list, api_key, obj_info)
+    # cache_path = query_description(folder_path, leave_list, api_key, obj_info, force=True)
 
-    # sort gpt result
-    most_result_pth, _ = sort_gpt_result(cache_path, leave_list)
-    mat2im_path = sort_categories(most_result_pth)
+    # # sort gpt result
+    # most_result_pth, _ = sort_gpt_result(cache_path, leave_list)
+    # mat2im_path = sort_categories(most_result_pth)
 
 
 
     # 加载所有mask图像
-    mask_folder = f'/experiments/{exp_name}/clean_masks/0'
-    mask_arrays = load_all_mask_images(mask_folder)
+    # mask_folder = f'/experiments/{exp_name}/clean_masks/0'
+    # mask_arrays = load_all_mask_images(mask_folder)
+    mask_folder ='/dtu/blackhole/11/180913/seg_material/experiments/chair2/clean_masks/0'
+    merged_mask = load_and_resize_masks(mask_folder, target_size=(256, 256))
+    # 保存最终合并的mask矩阵
+    np.save('merged_mask.npy', merged_mask)
+
+    # # 创建一个大的矩阵
+    # large_matrix = create_large_matrix(mask_arrays)
     
-    # 创建一个大的矩阵
-    large_matrix = create_large_matrix(mask_arrays)
-    
-    # 合并mask图像
-    large_matrix = merge_masks_into_large_matrix(mask_arrays, large_matrix)
-    
+    # # 合并mask图像
+    # large_matrix = merge_masks_into_large_matrix(mask_arrays, large_matrix)
+    # np.save('matrix.npy', large_matrix)
     # 创建颜色映射
-    color_mapping = create_color_mapping(large_matrix)
+    # color_mapping = create_color_mapping(large_matrix)
     
     # 生成彩色图像
-    color_image = generate_color_image(large_matrix, color_mapping)
+    # color_image = generate_color_image(large_matrix, color_mapping)
     
     # 保存彩色图像
     output_path = 'output_image.png'
-    save_color_image(color_image, output_path)
+    # save_color_image(color_image, output_path)
     

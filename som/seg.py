@@ -34,16 +34,16 @@ def test_single_image(image_path, exp_name):
     semsam_ckpt = "/dtu/blackhole/11/180913/seg_material/som/ckpts/swinl_only_sam_many2many.pth"
     opt_semsam = load_opt_from_config_file(semsam_cfg)
     model_semsam = BaseModel(opt_semsam, build_model(opt_semsam)).from_pretrained(semsam_ckpt).eval().cuda()
+    # image_pth=f'{image_path}/image_0_0.png'
     image = Image.open(image_path).convert('RGB')
     output_dir = f'./experiments/{exp_name}/0_masks'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
     
     # 调用推理函数
-    results = inference_semsam_auto(model_semsam, image, level=[3], all_classes='', all_parts='', thresh='0.0', text_size=1200, hole_scale=100, island_scale=100, semantic=False, label_mode='1', alpha=0.1, anno_mode=['Mask'], points_per_side=32, save_dir=output_dir)
+    results = inference_semsam_auto(model_semsam, image, level=[3], all_classes='', all_parts='', thresh='0.0', text_size=1200, hole_scale=100, island_scale=100, semantic=True, label_mode='1', alpha=0.1, anno_mode=['Mask'], points_per_side=32, save_dir=output_dir)
     
-    # 保存原图和分割结果
-    # image.save(os.path.join(output_dir, 'original_image.jpg'))
+    # 保存分割结果
     mask = results[0]['segmentation']
     mask_image = Image.fromarray(np.uint8(mask) * 255)
     # mask_image.save(os.path.join(output_dir, 'segmentation_result.png'))

@@ -98,17 +98,17 @@ def refine_masks(result_path, leave_index=None):
             kernel = np.ones((3,3), np.uint8)
             opening = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
             white_pixels = np.sum(opening == 255)
-            if white_pixels < 1000: continue # filter tiny region
+            if white_pixels < 800: continue # filter tiny region
             
             # find connected components
             n_components, output, stats, centroids = cv2.connectedComponentsWithStats(opening, connectivity=8)
 
             for label in range(1, n_components):  # filter tiny region
                 mask = output == label
-                if mask.sum() < 1000: continue
+                if mask.sum() < 800: continue
                 mask_list.append((mask*255).astype('uint8'))
 
-        mean_threshold, stddev_threshold = 10,8 # merge threshold
+        mean_threshold, stddev_threshold = 9,8 # merge threshold
         mask_list_updated = process_mask_list(image, mask_list, mean_threshold, stddev_threshold)
 
         ori_image = Image.open(ori_image_pth).convert('RGB')

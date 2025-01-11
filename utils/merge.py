@@ -39,6 +39,7 @@ def Merge(img_dir,exp_name):
     result_path = f'/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}'  # 替换为你的结果路径
     leave_index = None  # 如果只想处理特定索引的掩码，可以设置为相应的索引值
     image_path = '/dtu/blackhole/11/180913/seg_material/experiments/{exp_name}/original_image.jpg'
+    # image_pth=f'{img_dir}/image_0_0.png'
     resize_images(img_dir,exp_name)
     print('Image resized')
     # 调用测试函数
